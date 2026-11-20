@@ -1,0 +1,11 @@
+# Maps (source, container) -> access groups. DEFAULT DENY: anything not listed is NOT ingested.
+# Have the data owner / security review this file (Day 3).
+confluence:
+  ENG: [all-staff]          # engineering handbook
+  ONB: [all-staff]          # onboarding
+  HIPAA: [all-staff]        # HIPAA & process docs
+jira:
+  ALPHA: ["project:alpha"]
+  BETA: ["project:beta"]
+sharepoint:
+  "Delivery/Process": [delivery]

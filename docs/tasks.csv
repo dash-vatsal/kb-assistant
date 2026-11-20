@@ -1,0 +1,65 @@
+ID,Epic,Task,Stage,Days,Depends on,Done when,Plan week
+T-001,Foundations,Write scope; pick pilot group; get data-owner and security approval,1,2,none,Signed scope document,1
+T-002,Foundations,Collect 30 real questions from users (golden set v0),1,2,T-001,Reviewed list in repo,1
+T-003,Foundations,"Local model setup: Ollama running, models pulled, smoke test passes",1,1,none,check_llm passes,1
+T-004,Foundations,"Repo, branching, CI (lint, unit tests), dev/stage/prod environments",1,3,none,Pipeline green on a sample PR,1
+T-005,Foundations,"Infrastructure as code: network, Aurora PostgreSQL with pgvector, ECS, secrets",1,5,T-003,Environment created from code,
+T-006,Foundations,"Decide log retention, data classification and who can read logs",1,1,T-001,Written decision,1
+T-010,Ingestion,"Confluence connector: pages, pagination, restrictions, structured text",1,3,T-003,Pages for 2 spaces ingested,2
+T-011,Ingestion,"Jira connector: issues, comments, resolution, token pagination",1,3,T-003,Issues for 1 project ingested,2
+T-012,Ingestion,Access map and default-deny guard in ingestion,1,2,T-001,Unmapped container refused,1
+T-013,Ingestion,Heading-aware chunking with unit tests,1,2,none,Tests pass; chunks reviewed on 5 pages,2
+T-014,Ingestion,"Schema, migrations, embedding and indexing pipeline",1,3,T-005,Every chunk has access groups,2
+T-015,Ingestion,"Incremental sync: hash skip, deletions, safe-delete guard, scheduler",1,4,T-014,"Edit, delete and ACL change all propagate",3
+T-016,Ingestion,"Sync status, retries with backoff, failure alerts",1,2,T-015,Failed sync raises alert,3
+T-017,Ingestion,Webhook handlers for page and issue updates,2,3,T-015,Change visible within 5 minutes,
+T-018,Ingestion,SharePoint or Drive connector with docx and pdf parsing,2,5,T-012,One folder searchable with access tags,
+T-019,Ingestion,Duplicate and near-duplicate detection report,3,2,T-014,Report lists duplicates,
+T-020,Access,Permission model; 5 synthetic users; canary documents,1,2,T-012,Model reviewed by data owner,1
+T-021,Access,ACL-filtered retrieval in SQL with integration tests,1,3,T-020,Test users see only allowed chunks,2
+T-022,Access,SSO (OIDC) in API and web app,2,4,T-060,Only verified tokens accepted,
+T-023,Access,Identity-provider group sync with cache; failure means deny,2,4,T-022,Group change reflected in under 1 hour,
+T-024,Access,"Source permission sync (spaces, projects to groups) and ACL change propagation",2,5,T-015,Permission change applies without re-embedding,
+T-025,Access,Admin access-map editing with approval and change history,2,3,T-024,Changes need approver; history kept,
+T-026,Access,Per-source kill switch,2,1,T-025,Source disabled instantly,
+T-027,Access,"Monthly access report (groups, members, reachable sources)",3,2,T-023,Report generated,
+T-030,Retrieval,Vector and keyword search with rank fusion,1,3,T-014,Good hits on 10 queries,3
+T-031,Retrieval,Reranker with safe fallback,1,2,T-030,Relevance improves on hard questions,3
+T-032,Retrieval,"Tune chunk size, top-k and thresholds on the golden set",1,4,T-051,Baseline and tuned numbers recorded,4
+T-033,Retrieval,Follow-up question rewriting under the same permissions,2,3,T-040,Follow-ups resolve; no cross-user memory,
+T-034,Retrieval,"Filters by source, space and date",3,2,T-030,Filters work in API,
+T-040,Answering,"Grounded prompt, JSON output, server-side citation validation",1,3,T-031,Uncited answers become not found,4
+T-041,Answering,Not-found logic (threshold plus sufficiency) and calibration,1,3,T-040,"Off-topic refused, valid answered",4
+T-042,Answering,Stale and conflicting source handling,1,2,T-040,Warnings and conflicts shown,3
+T-043,Answering,"Streaming, timeouts and graceful errors",2,3,T-060,First token under 3 s,
+T-044,Answering,Prompt-injection defenses and injection suite v1,1,3,T-040,Suite passes,4
+T-050,Evaluation,Golden set v1: 60 questions incl. 10 no-answer and 10 traps,1,4,T-002,Second reviewer checked references,4
+T-051,Evaluation,"Eval runner, LLM judge, human calibration sample",1,4,T-050,Judge agrees with humans on sample,4
+T-052,Evaluation,"Variant comparison: rerank, hybrid, chunk sizes",1,2,T-051,Results table,5
+T-053,Evaluation,CI quality gate on golden set and traps,2,3,T-051,Regression blocks merge,
+T-054,Evaluation,Benchmark managed option (Bedrock KB) on same corpus - deferred,1,3,T-052,Comparison write-up,5
+T-060,Interface,"Backend API: ask, feedback, history; validation; rate limits",1,4,T-040,API tests pass,5
+T-061,Interface,"Web app: ask, answer, citations, feedback, history",1,6,T-060,Users complete tasks unaided,5
+T-062,Interface,Audit logging and retention job,1,3,T-006,Every request logged; old logs purged,5
+T-063,Interface,"Usage, quality and cost dashboard",1,3,T-062,Dashboard live,5
+T-064,Interface,Review queue with failure tags,2,3,T-062,Thumbs-down and not-found queued,
+T-065,Interface,Documentation-gap and staleness report,2,3,T-064,Report sent to content owners,
+T-070,Security,"Trap and extraction test pack (rephrasing, cross-project, code listing)",1,3,T-021,100% traps blocked,5
+T-071,Security,Threat-model workshop and actions,2,2,T-070,Actions tracked,
+T-072,Security,"Independent security review, pen test support, fixes",2,6,T-071,No open high findings,
+T-073,Security,"Injection suite v2 (hidden text, role prefixes, link exfiltration)",2,2,T-044,Suite passes,
+T-074,Security,"Least-privilege IAM, private endpoints, encryption review",2,3,T-005,Review checklist complete,
+T-080,Platform,"Observability: logs, metrics, traces, alarms",2,4,T-005,Alarms fire in test,
+T-081,Platform,"Backups, point-in-time restore, index rebuild procedure",2,3,T-005,Restore tested,
+T-082,Platform,Load and cost tests; token budgets,2,3,T-060,p95 and cost per query known,
+T-083,Platform,"High availability, autoscaling, health checks",2,3,T-005,Failover tested,
+T-084,Platform,"Runbook, on-call and support model",3,3,T-080,Runbook reviewed,
+T-085,Platform,Disaster-recovery drill,3,1,T-081,Drill passed within RTO,
+T-090,Pilot,"Pilot A: onboarding note, 5-10 users, feedback collection",1,3,T-061,Ratings and logs collected,6
+T-091,Pilot,"Pilot B: 30-50 users, weekly failure triage",2,5,T-072,Failures categorized and fixed,
+T-092,Pilot,One-page business case from pilot data,2,2,T-091,Sponsor reviewed,
+T-093,Pilot,"Rollout plan, training and communications",3,3,T-092,Plan approved,
+T-094,Pilot,Go-live review and sign-offs,3,2,T-093,"Sponsor, data owner, security sign",
+T-100,Adoption,"Slack or Teams bot: identity mapping, threads, feedback",3,6,T-022,Bot answers with citations,
+T-101,Adoption,Bot security review for shared channels,3,2,T-100,Shared-channel rules verified,
+T-102,Adoption,Admin approval and app installation,3,1,none,App installed in workspace,

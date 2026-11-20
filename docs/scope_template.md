@@ -1,0 +1,13 @@
+# POC scope
+- Owner / sponsor:
+- Data owner(s) who approved:  date:
+- Problem statement (one sentence):
+- Pilot users (group, count):
+- Sources in scope (wave 1): Confluence spaces __, Jira projects __ (non-client / approved only)
+- Sources in wave 2: SharePoint/Drive folder __
+- Explicitly out of scope: Slack/Teams chats, DMs, private channels, client-NDA projects not approved
+- Interfaces: web app (POC), Slack/Teams bot (if admin approves)
+- Success metrics and targets: hit@5 >= __%, correctness >= __%, citation accuracy >= __%, correct not-found >= __%, access tests 100%, pilot thumbs-up >= __%, repeat users >= __
+- Data handling: stays in our AWS account; logs retained __ days; who reads logs: __
+- Risks and mitigations: stale docs (show dates), sparse docs (gap report), adoption (bot in Slack)
+- Open decision: when the best answer is restricted, stay silent (default) or reveal that a similar solution exists?

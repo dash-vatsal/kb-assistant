@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make test)", "Bash(make itest)", "Bash(make eval)", "Bash(make compare)", "Bash(make calibrate)",
+      "Bash(pytest:*)", "Bash(python -m pytest:*)", "Bash(ruff check:*)",
+      "Bash(git status)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(git add:*)", "Bash(git commit:*)"
+    ],
+    "deny": [
+      "Read(./.env)", "Read(./.env.*.local)",
+      "Bash(git push:*)", "Bash(rm -rf:*)", "Bash(curl:*)", "Bash(wget:*)"
+    ]
+  }
+}
